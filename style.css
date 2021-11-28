@@ -1,0 +1,176 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Montserrat", sans-serif;
+}
+* {
+  box-sizing: border-box;
+}
+
+.header {
+  text-align: center;
+}
+
+.container {
+  display: flex;
+  flex-flow: row;
+  margin: 5px;
+  margin-top: 50px;
+}
+
+.list {
+  width: 70%;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(5px, 5fr));
+}
+.pizza-div {
+  display: flex;
+  flex-flow: row;
+  margin: 20px;
+  box-shadow: 0px 10px 7px #ebebeb;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid #f3f1f1;
+}
+
+.pizza-info-wraper {
+  margin: 8px;
+}
+
+.pizza-info-wraper button {
+  background-color: rgb(118, 184, 41);
+  color: white;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid #f3f1f1;
+  padding-left: 40px;
+  padding-right: 40px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  cursor: pointer;
+  margin-left: 100px;
+  margin-bottom: 5px;
+}
+
+.title {
+  font-size: 25px;
+}
+
+.price {
+  padding: 5px;
+}
+
+.ingredients {
+  margin: 5px;
+
+  color: #5c5c5c;
+  font-size: 13px;
+}
+
+.image img {
+  width: 170px;
+  height: 140px;
+  object-fit: cover;
+}
+
+.basket-container {
+  margin: 20px;
+  width: 100%;
+  box-shadow: 0px 10px 7px #ebebeb;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid #f3f1f1;
+  display: flex;
+  flex-flow: column;
+}
+
+.basket-wrapper {
+  width: 30%;
+  margin-right: 40px;
+}
+
+.basket-products {
+  min-height: 20vw;
+}
+
+.basket-container img {
+  width: 100px;
+  object-fit: cover;
+  display: flex;
+  flex-flow: row;
+}
+.basket-info {
+  margin-top: 10px;
+  font-size: 30px;
+  text-align: center;
+}
+
+.basket-empty-info {
+  text-align: center;
+  font-size: 20px;
+  color: #808080;
+  margin-bottom: 15vw;
+}
+
+.product {
+  display: flex;
+  flex-flow: row;
+  margin-top: 30px;
+  height: 100px;
+  border-bottom: 1px solid #f3f1f1;
+}
+
+.price-title-wrapper {
+  margin-left: 5px;
+}
+
+.price-title-wrapper button {
+  color: rgb(219, 22, 29);
+  background: none;
+  border: none;
+  text-decoration-line: underline;
+  cursor: pointer;
+  display: inline-block;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.basket-product-title {
+  font-size: 20px;
+}
+
+.basket-product-price {
+  font-size: 15px;
+  margin-top: 5px;
+  margin-left: 5px;
+}
+
+input {
+  width: 60px;
+  height: 30px;
+  margin-left: 10px;
+  margin-top: 27px;
+  text-align: center;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  opacity: 1;
+
+  width: 14px;
+  height: 30px;
+}
+
+.basket-total-wraper {
+  display: flex;
+  flex-flow: row;
+  padding: 5px;
+  font-size: 20px;
+  position: relative;
+}
+
+.total-sum {
+  margin-left: 5px;
+}
