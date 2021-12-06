@@ -37,7 +37,7 @@ body {
   margin: 8px;
 }
 
-.pizza-info-wraper button {
+.button {
   background-color: rgb(118, 184, 41);
   color: white;
   border-radius: 10px;
@@ -110,6 +110,10 @@ body {
   font-size: 20px;
   color: #808080;
   margin-bottom: 15vw;
+}
+
+.hidden {
+  display: none;
 }
 
 .product {
