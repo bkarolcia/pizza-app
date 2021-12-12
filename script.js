@@ -1,3 +1,5 @@
+("use strict");
+
 const getJsonData = async () => {
   return await fetch(
     "https://raw.githubusercontent.com/alexsimkovich/patronage/main/api/data.json"
@@ -13,12 +15,94 @@ const toggleBasketEmptyInfo = (basketItems) => {
   }
 };
 
-const deleteProductFromBasket = (productId, basketItems) => {
-  document.querySelector(".product[data-id='" + productId + "']").remove();
-  const indexToRemove = basketItems.findIndex((item) => item?.id === productId);
-  delete basketItems[indexToRemove];
+const sortList = (basketItems, list) => {
+  const select = document.querySelector(".select").value;
+  switch (select) {
+    case "name-asc":
+      list.sort((item1, item2) => (item1.title > item2.title ? 1 : -1));
+
+      break;
+    case "name-desc":
+      list.sort((item1, item2) => (item1.title < item2.title ? 1 : -1));
+      break;
+    case "price-asc":
+      list.sort((item1, item2) => (item1.price < item2.price ? 1 : -1));
+
+      break;
+    case "price-desc":
+      list.sort((item1, item2) => (item1.price > item2.price ? 1 : -1));
+      break;
+  }
+  document.querySelector(".list").innerHTML = "";
+  displayList(list, basketItems);
+};
+
+const searchingIngredients = (searchedText, list, basketItems) => {
+  const filteredList = [];
+  const searchedTextArray = searchedText.split(",");
+  list.forEach((item) => {
+    item.ingredients.forEach((ingredient) => {
+      searchedTextArray.forEach((word) => {
+        if (
+          ingredient.match(word) &&
+          !filteredList.find((element) => element.id === item.id)
+        ) {
+          filteredList.push(item);
+        }
+      });
+    });
+  });
+
+  if (searchedText !== "") {
+    document.querySelector(".list").innerHTML = "";
+    displayList(filteredList, basketItems);
+  } else {
+    displayList(list, basketItems);
+  }
+};
+
+const deleteAllItems = (basketItems) => {
+  basketItems.length = 0;
+  document.querySelector(".basket-products").innerHTML = "";
+  handleBasketChange(basketItems);
+};
+
+const handleBasketChange = (basketItems) => {
   toggleBasketEmptyInfo(basketItems);
   updateSummary(basketItems);
+  saveInLocalStorage(basketItems);
+};
+
+const deleteProductFromBasket = (productId, basketItems) => {
+  document.querySelector(".product[data-id='" + productId + "']");
+  basketItems.forEach((item, key) => {
+    if (item.id === productId) {
+      if (item.quantity > 1) {
+        basketItems[key].quantity--;
+        document.querySelector(
+          '.product[data-id="' + item.id + '"] input'
+        ).value = item.quantity;
+      } else {
+        delete basketItems[key];
+        document.querySelector('.product[data-id="' + item.id + '"]').remove();
+      }
+    }
+  });
+
+  handleBasketChange(basketItems);
+};
+
+const saveInLocalStorage = (basketItems) => {
+  window.localStorage.setItem("basketItems", JSON.stringify(basketItems));
+};
+
+const getBasketItemsFromLocalStorage = () => {
+  const basketItemsFromStorage = window.localStorage.getItem("basketItems");
+  if (basketItemsFromStorage === null) {
+    return [];
+  } else {
+    return JSON.parse(basketItemsFromStorage).filter((item) => item);
+  }
 };
 
 const updateSummary = (basketItems) => {
@@ -30,31 +114,46 @@ const updateSummary = (basketItems) => {
 };
 
 const addProductToBasket = (product, basketItems) => {
-  const basketProductsContainer = document.querySelector(".basket-products");
-  basketItems.push({ ...product, quantity: 1 });
-
-  basketProductsContainer.insertAdjacentHTML(
-    "beforeend",
-    `<div class="product" data-id="${product.id}">
-    <div class="basket-product-image"><img src="${product.image}" /></div>
-    <div class="price-title-wrapper">
-      <div class="basket-product-title">${product.title}</div>
-      <div class="basket-product-price">${product.price.toFixed(2) + "zł"}</div>
-      <button id="basket-button${
-        product.id
-      }" class="basket-button">Usuń</button>
-    </div>
-    <input type="number" value="1" min="1" max="15" onKeyDown="return false"> </input>
-  </div>
-`
+  const alreadyExistingItem = basketItems.find(
+    (item) => item?.id === product?.id
+  );
+  const basketItem = document.querySelector(
+    '.product[data-id="' + product.id + '"] input'
   );
 
-  document
-    .querySelector(`#basket-button${product.id}`)
-    .addEventListener("click", () => {
-      deleteProductFromBasket(product.id, basketItems);
-    });
-  updateSummary(basketItems);
+  if (basketItem) {
+    alreadyExistingItem.quantity++;
+
+    basketItem.value = alreadyExistingItem.quantity;
+    updateSummary(basketItems);
+  } else {
+    const basketProductsContainer = document.querySelector(".basket-products");
+    basketItems.push({ ...product, quantity: 1 });
+
+    basketProductsContainer.insertAdjacentHTML(
+      "beforeend",
+      `<div class="product" data-id="${product.id}">
+      <div class="basket-product-image"><img src="${product.image}" /></div>
+      <div class="price-title-wrapper">
+        <div class="basket-product-title">${product.title}</div>
+        <div class="basket-product-price">${
+          product.price.toFixed(2) + "zł"
+        }</div>
+        <button id="basket-button${
+          product.id
+        }" class="basket-button">Usuń</button>
+      </div>
+      <input type="number" value="1" min="1"  onKeyDown="return false"> </input>
+    </div>
+`
+    );
+    document
+      .querySelector(`#basket-button${product.id}`)
+      .addEventListener("click", () => {
+        deleteProductFromBasket(product.id, basketItems);
+      });
+  }
+  handleBasketChange(basketItems);
 };
 
 const displayList = (list, basketItems) => {
@@ -67,9 +166,11 @@ const displayList = (list, basketItems) => {
     <div class="image"><img src="${element.image}" /></div>
     <div class="pizza-info-wrapper">
     <div class="title">${element.title}</div>
-    <div class="price">${element.price}</div>
+    <div class="price">${element.price.toFixed(2) + "zł"}</div>
     <div class="ingredients">${element.ingredients}</div>
-      <button id="button${element.id}" class="button" data-id="${element.id}">Zamów</button>
+      <button id="button${element.id}" class="button" data-id="${
+        element.id
+      }">Zamów</button>
     </div>
     </div>
     
@@ -79,19 +180,7 @@ const displayList = (list, basketItems) => {
     document
       .querySelector(`#button${element.id}`)
       .addEventListener("click", () => {
-        const alreadyExistingItem = basketItems.find(
-          (item) => item?.id === element?.id
-        );
-        if (alreadyExistingItem) {
-          alreadyExistingItem.quantity++;
-          const basketItemInput = document.querySelector(
-            '.product[data-id="' + element.id + '"] input'
-          );
-          basketItemInput.value = alreadyExistingItem.quantity;
-          updateSummary(basketItems);
-        } else {
-          addProductToBasket(element, basketItems);
-        }
+        addProductToBasket(element, basketItems);
       });
   });
 };
@@ -99,6 +188,29 @@ const displayList = (list, basketItems) => {
 const app = async () => {
   const list = await getJsonData();
   const basketItems = [];
+  const basketItemsInLocalStorage = getBasketItemsFromLocalStorage();
+
+  list.sort((item1, item2) => (item1.title > item2.title ? 1 : -1));
+
+  document
+    .querySelector(".clearing-button")
+    .addEventListener("click", () => deleteAllItems(basketItems));
+
+  document
+    .querySelector(".searching-input")
+    .addEventListener("input", (e) =>
+      searchingIngredients(e.target.value, list, basketItems)
+    );
+
+  document.querySelector(".select").addEventListener("change", () => {
+    sortList(basketItems, list);
+  });
+
+  if (basketItemsInLocalStorage.length > 0) {
+    basketItemsInLocalStorage.forEach((item) => {
+      addProductToBasket(item, basketItems);
+    });
+  }
 
   displayList(list, basketItems);
 };

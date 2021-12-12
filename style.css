@@ -11,17 +11,24 @@ body {
   text-align: center;
 }
 
-.container {
-  display: flex;
-  flex-flow: row;
-  margin: 5px;
-  margin-top: 50px;
+.searching-input {
+  width: 300px;
+  height: 35px;
+  margin-right: 5%;
+  box-shadow: 0px 5px 7px#ebebeb;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 2px solid #ebebeb;
+}
+
+.select {
+  height: 30px;
+  border: none;
+  font-size: 15px;
 }
 
 .list {
-  width: 70%;
   display: grid;
-  grid-template-columns: repeat(2, minmax(5px, 5fr));
 }
 .pizza-div {
   display: flex;
@@ -33,7 +40,7 @@ body {
   border: 1px solid #f3f1f1;
 }
 
-.pizza-info-wraper {
+.pizza-info-wrapper {
   margin: 8px;
 }
 
@@ -48,7 +55,7 @@ body {
   padding-top: 10px;
   padding-bottom: 10px;
   cursor: pointer;
-  margin-left: 100px;
+  margin-left: 20px;
   margin-bottom: 5px;
 }
 
@@ -74,8 +81,6 @@ body {
 }
 
 .basket-container {
-  margin: 20px;
-  width: 100%;
   box-shadow: 0px 10px 7px #ebebeb;
   border-radius: 10px;
   overflow: hidden;
@@ -84,17 +89,9 @@ body {
   flex-flow: column;
 }
 
-.basket-wrapper {
-  width: 30%;
-  margin-right: 40px;
-}
-
-.basket-products {
-  min-height: 20vw;
-}
-
 .basket-container img {
   width: 100px;
+  height: 80px;
   object-fit: cover;
   display: flex;
   flex-flow: row;
@@ -157,17 +154,37 @@ input {
   margin-left: 10px;
   margin-top: 27px;
   text-align: center;
+  cursor: pointer;
 }
 
-input[type="number"]::-webkit-inner-spin-button,
-input[type="number"]::-webkit-outer-spin-button {
-  opacity: 1;
-
-  width: 14px;
-  height: 30px;
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
 
-.basket-total-wraper {
+.basket-bottom-items {
+  display: flex;
+  flex-flow: row;
+  justify-content: space-between;
+  padding: 5px;
+}
+
+.clearing-button {
+  color: rgb(219, 22, 29);
+  background: none;
+  border: none;
+  text-decoration-line: underline;
+  cursor: pointer;
+  display: inline-block;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  font-size: 17px;
+}
+
+.basket-total-wrapper {
   display: flex;
   flex-flow: row;
   padding: 5px;
@@ -177,4 +194,51 @@ input[type="number"]::-webkit-outer-spin-button {
 
 .total-sum {
   margin-left: 5px;
+}
+
+@media screen and (min-width: 1200px) {
+  .list {
+    width: 70%;
+    grid-template-columns: repeat(2, minmax(5px, 5fr));
+  }
+}
+
+@media screen and (min-width: 700px) {
+  .container {
+    margin: 5px;
+    margin-top: 50px;
+    display: flex;
+    flex-flow: row;
+  }
+}
+
+@media screen and (min-width: 700px) {
+  .pizza-div {
+    width: 400px;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .basket-container {
+    margin: 20px;
+    width: 100%;
+  }
+}
+
+@media screen and (min-width: 800px) {
+  .basket-container {
+    margin: 20px;
+    width: 100%;
+  }
+}
+@media screen and (min-width: 1200px) {
+  .basket-wrapper {
+    margin-right: 40px;
+    width: 30%;
+  }
+}
+@media screen and (min-width: 1200px) {
+  .basket-products {
+    min-height: 20vw;
+  }
 }
