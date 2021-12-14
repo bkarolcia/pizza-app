@@ -15,29 +15,8 @@ const toggleBasketEmptyInfo = (basketItems) => {
   }
 };
 
-const sortList = (basketItems, list) => {
-  const select = document.querySelector(".select").value;
-  switch (select) {
-    case "name-asc":
-      list.sort((item1, item2) => (item1.title > item2.title ? 1 : -1));
-
-      break;
-    case "name-desc":
-      list.sort((item1, item2) => (item1.title < item2.title ? 1 : -1));
-      break;
-    case "price-asc":
-      list.sort((item1, item2) => (item1.price < item2.price ? 1 : -1));
-
-      break;
-    case "price-desc":
-      list.sort((item1, item2) => (item1.price > item2.price ? 1 : -1));
-      break;
-  }
-  document.querySelector(".list").innerHTML = "";
-  displayList(list, basketItems);
-};
-
-const searchingIngredients = (searchedText, list, basketItems) => {
+const filterList = (list, basketItems) => {
+  const searchedText = document.querySelector(".searching-input").value;
   const filteredList = [];
   const searchedTextArray = searchedText.split(",");
   list.forEach((item) => {
@@ -52,6 +31,26 @@ const searchingIngredients = (searchedText, list, basketItems) => {
       });
     });
   });
+
+  const select = document.querySelector(".select").value;
+  switch (select) {
+    case "name-asc":
+      list.sort((item1, item2) => (item1.title > item2.title ? 1 : -1));
+      filteredList.sort((item1, item2) => (item2.title > item1.title ? 1 : -1));
+      break;
+    case "name-desc":
+      list.sort((item1, item2) => (item1.title < item2.title ? 1 : -1));
+      filteredList.sort((item1, item2) => (item2.title < item1.title ? 1 : -1));
+      break;
+    case "price-asc":
+      list.sort((item1, item2) => (item1.price < item2.price ? 1 : -1));
+      filteredList.sort((item1, item2) => (item1.price < item2.price ? 1 : -1));
+      break;
+    case "price-desc":
+      list.sort((item1, item2) => (item1.price > item2.price ? 1 : -1));
+      filteredList.sort((item1, item2) => (item1.price > item2.price ? 1 : -1));
+      break;
+  }
 
   if (searchedText !== "") {
     document.querySelector(".list").innerHTML = "";
@@ -128,7 +127,7 @@ const addProductToBasket = (product, basketItems) => {
     updateSummary(basketItems);
   } else {
     const basketProductsContainer = document.querySelector(".basket-products");
-    basketItems.push({ ...product, quantity: 1 });
+    basketItems.push({ ...product, quantity: product.quantity ?? 1 });
 
     basketProductsContainer.insertAdjacentHTML(
       "beforeend",
@@ -143,7 +142,9 @@ const addProductToBasket = (product, basketItems) => {
           product.id
         }" class="basket-button">Usuń</button>
       </div>
-      <input type="number" value="1" min="1"  onKeyDown="return false"> </input>
+      <input type="number" value="${
+        product.quantity ?? 1
+      }" min="1"  onKeyDown="return false"> </input>
     </div>
 `
     );
@@ -163,7 +164,7 @@ const displayList = (list, basketItems) => {
     listDOMElement.insertAdjacentHTML(
       "beforeend",
       `<div class="pizza-div">
-    <div class="image"><img src="${element.image}" /></div>
+    <img src="${element.image}" />
     <div class="pizza-info-wrapper">
     <div class="title">${element.title}</div>
     <div class="price">${element.price.toFixed(2) + "zł"}</div>
@@ -188,7 +189,9 @@ const displayList = (list, basketItems) => {
 const app = async () => {
   const list = await getJsonData();
   const basketItems = [];
-  const basketItemsInLocalStorage = getBasketItemsFromLocalStorage();
+  const basketItemsInLocalStorage = getBasketItemsFromLocalStorage().filter(
+    (item) => item
+  );
 
   list.sort((item1, item2) => (item1.title > item2.title ? 1 : -1));
 
@@ -198,12 +201,10 @@ const app = async () => {
 
   document
     .querySelector(".searching-input")
-    .addEventListener("input", (e) =>
-      searchingIngredients(e.target.value, list, basketItems)
-    );
+    .addEventListener("input", (e) => filterList(list, basketItems));
 
   document.querySelector(".select").addEventListener("change", () => {
-    sortList(basketItems, list);
+    filterList(list, basketItems);
   });
 
   if (basketItemsInLocalStorage.length > 0) {

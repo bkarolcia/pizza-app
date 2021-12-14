@@ -10,6 +10,22 @@ body {
 .header {
   text-align: center;
 }
+.header img {
+  width: 100%;
+  align-items: center;
+}
+
+@media screen and (min-width: 500px) {
+  .header img {
+    margin-left: 0;
+    width: 400px;
+  }
+}
+
+.input-filter-wrapper {
+  align-items: center;
+  width: 100%;
+}
 
 .searching-input {
   width: 300px;
@@ -25,11 +41,35 @@ body {
   height: 30px;
   border: none;
   font-size: 15px;
+  margin-top: 8px;
+}
+
+@media screen and (min-width: 705px) {
+  .container {
+    margin: 5px;
+    margin-top: 50px;
+    display: flex;
+    flex-flow: row;
+  }
 }
 
 .list {
   display: grid;
 }
+
+@media screen and (min-width: 1200px) {
+  .list {
+    width: 70%;
+    grid-template-columns: repeat(2, minmax(5px, 5fr));
+  }
+}
+@media screen and (min-width: 2000px) {
+  .list {
+    width: 70%;
+    grid-template-columns: repeat(3, minmax(5px, 5fr));
+  }
+}
+
 .pizza-div {
   display: flex;
   flex-flow: row;
@@ -38,10 +78,22 @@ body {
   border-radius: 10px;
   overflow: hidden;
   border: 1px solid #f3f1f1;
+  height: 150px;
+}
+
+@media screen and (min-width: 700px) {
+  .pizza-div {
+    width: 400px;
+  }
+}
+@media screen and (min-width: 1500px) {
+  .pizza-div {
+    width: 450px;
+  }
 }
 
 .pizza-info-wrapper {
-  margin: 8px;
+  margin-left: 10px;
 }
 
 .button {
@@ -60,24 +112,50 @@ body {
 }
 
 .title {
-  font-size: 25px;
+  font-size: 15px;
+}
+
+@media screen and (min-width: 700px) {
+  .title {
+    font-size: 23px;
+  }
 }
 
 .price {
-  padding: 5px;
+  padding: 2px;
+  font-size: 13px;
+}
+
+@media screen and (min-width: 700px) {
+  .price {
+    font-size: 18px;
+  }
 }
 
 .ingredients {
   margin: 5px;
-
   color: #5c5c5c;
-  font-size: 13px;
+  font-size: 10px;
+  word-break: break-word;
 }
 
-.image img {
-  width: 170px;
-  height: 140px;
+@media screen and (min-width: 700px) {
+  .ingredients {
+    font-size: 13px;
+  }
+}
+
+.pizza-div img {
+  width: 160px;
+  height: 150px;
   object-fit: cover;
+}
+
+@media screen and (min-width: 800px) {
+  .image img {
+    width: 150px;
+    height: 130px;
+  }
 }
 
 .basket-container {
@@ -89,12 +167,33 @@ body {
   flex-flow: column;
 }
 
+@media screen and (min-width: 1200px) {
+  .basket-container {
+    margin: 20px;
+    width: 100%;
+  }
+}
+
+@media screen and (min-width: 800px) {
+  .basket-container {
+    margin: 20px;
+    width: 100%;
+  }
+}
+
 .basket-container img {
   width: 100px;
   height: 80px;
   object-fit: cover;
   display: flex;
   flex-flow: row;
+}
+
+@media screen and (min-width: 1200px) {
+  .basket-wrapper {
+    margin-right: 40px;
+    width: 30%;
+  }
 }
 .basket-info {
   margin-top: 10px;
@@ -113,6 +212,11 @@ body {
   display: none;
 }
 
+@media screen and (min-width: 1200px) {
+  .basket-products {
+    min-height: 20vw;
+  }
+}
 .product {
   display: flex;
   flex-flow: row;
@@ -194,51 +298,4 @@ input::-webkit-inner-spin-button {
 
 .total-sum {
   margin-left: 5px;
-}
-
-@media screen and (min-width: 1200px) {
-  .list {
-    width: 70%;
-    grid-template-columns: repeat(2, minmax(5px, 5fr));
-  }
-}
-
-@media screen and (min-width: 700px) {
-  .container {
-    margin: 5px;
-    margin-top: 50px;
-    display: flex;
-    flex-flow: row;
-  }
-}
-
-@media screen and (min-width: 700px) {
-  .pizza-div {
-    width: 400px;
-  }
-}
-
-@media screen and (min-width: 1200px) {
-  .basket-container {
-    margin: 20px;
-    width: 100%;
-  }
-}
-
-@media screen and (min-width: 800px) {
-  .basket-container {
-    margin: 20px;
-    width: 100%;
-  }
-}
-@media screen and (min-width: 1200px) {
-  .basket-wrapper {
-    margin-right: 40px;
-    width: 30%;
-  }
-}
-@media screen and (min-width: 1200px) {
-  .basket-products {
-    min-height: 20vw;
-  }
 }
