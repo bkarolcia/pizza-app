@@ -2,11 +2,21 @@
   <meta charset="UTF-8" />
   <head>
     <link rel="stylesheet" href="style.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
   </head>
 
   <body>
     <div class="header">
-      <img src="images/pizza-banner.jpg" alt="Super Pizza" />
+      <img src="images/pizza-banner.jpg" />
+      <div class="input-filter-wrapper">
+        <input type="text" placeholder="Szukaj" class="searching-input" />
+        <select class="select">
+          <option value="name-desc">Sortuj po nazwie rosnąco</option>
+          <option value="name-asc">Sortuj po nazwie malejąco</option>
+          <option value="price-desc">Sortuj po cenie rosnąco</option>
+          <option value="price-asc">Sortuj po cenie malejąco</option>
+        </select>
+      </div>
     </div>
     <div class="container">
       <div class="list"></div>
@@ -17,10 +27,14 @@
           <div class="basket-products"></div>
 
           <div class="basket-empty-info">Głodny? Zamów naszą pizzę</div>
-          <div class="basket-total-wraper">
-            <div class="basket-total">Total:</div>
-            <div class="total-sum">0.00</div>
-            zł
+
+          <div class="basket-bottom-items">
+            <div class="basket-total-wrapper">
+              <div class="basket-total">Total:</div>
+              <div class="total-sum">0.00</div>
+              zł
+            </div>
+            <button class="clearing-button">Wyczyść koszyk</button>
           </div>
         </div>
       </div>
